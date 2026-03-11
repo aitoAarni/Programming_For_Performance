@@ -117,7 +117,7 @@ void run_ops(query_structure& qs, std::istream& in) {
                               << (qs.count(val) ? "found" : "not found")
                               << std::endl;
                 } else {
-                    std::cout << qs.count(val) << std::endl;
+                    std::cout << qs.count(val) << "\n";
                 }
             }
         } else {
