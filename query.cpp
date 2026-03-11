@@ -191,14 +191,16 @@ void select_qs(int type, uint64_t limit, bool separate_queries,
  * in research at least.
  */
 int main(int argc, char const* argv[]) {
-    std::ios_base::sync_with_stdio(false);
-    std::cin.tie(NULL);
+    // for faster io
+    // std::ios_base::sync_with_stdio(false);
+    // std::cin.tie(NULL);
+
     // Change the line below to override default behaviour at CSES.
     // CSES does not support command line parameters (yet).
     // This mean a workaround is required to test custom data structures.
     // For example to submit with the unbalanced binary tree "-t 3" by default
     // you should change the line below to "int type = 3;".
-    int type = 4;
+    int type = 5;
     uint64_t limit = (uint32_t(1) << 31) - 1;
     bool separate_queries = false;
     int input_file = 0;

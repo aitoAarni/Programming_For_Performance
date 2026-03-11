@@ -1,3 +1,5 @@
+#include <vector>
+
 /**
  * You can use this for programming task 2 of set 1 
 */
@@ -8,13 +10,16 @@ namespace pfp {
 
 template <class dtype>
 class bv {
+  std::vector<bool> container;
   public:
-    bv(dtype limit) {}
+    bv(dtype limit) : container(limit) {}
 
-    void insert(dtype value) { }
+    void insert(dtype value) {
+      container[value] = true;
+    }
 
     int count(dtype value) const {
-        return 0;
+        return container[value] ? 1 : 0;
     }
 };
 
