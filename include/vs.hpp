@@ -1,6 +1,7 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <array>
 /**
  * You can use this file for programmign task 1 of set 1.
 */
@@ -28,7 +29,8 @@ class vs {
         query_mode = false;
       }
       int left {0};
-      int right {container.size()-1};
+      if (ontainer.empty()) return 0;
+      int right {static_cast<int>(container.size())-1};
       int mid {0};
       while (left <= right) {
         mid = (right-left)/2 + left;
