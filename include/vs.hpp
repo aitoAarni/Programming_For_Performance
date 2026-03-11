@@ -1,3 +1,5 @@
+#include <iostream>
+#include <set>
 /**
  * You can use this file for programmign task 1 of set 1.
 */
@@ -8,11 +10,16 @@ namespace pfp {
 
 template <class dtype>
 class vs {
+  private:
+    std::set<dtype> container;
   public:
-    void insert(dtype val) { }
+    void insert(dtype val) {
+      container.insert(val);
+    }
 
     int count(dtype val) {
-        return 0;
+        auto result = container.count(val);
+        return result;
     }
 };
 

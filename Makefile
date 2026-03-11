@@ -43,6 +43,10 @@ clean:
 debug: query.cpp $(HEADERS)
 	g++ $(CPPFLAGS) -DDEBUG -g -o main query.cpp
 
+NAME ?= solution
+# Tells make what to do when "make submit" is called.
+submit:
+	zip -r ${NAME}.zip query.cpp Makefile include/
 # Generic rule that tells make that nothing needs to be done about c++ header files.
 %.hpp:
 
