@@ -80,7 +80,7 @@ void run_ops(query_structure& qs, std::istream& in) {
     // If validation si not used, an optimizing compiler will remove the
     // initialization.
     std::unordered_set<int> us;
-    if constexpr (debug) std::cout << "Enter values to add" << std::endl;
+    if constexpr (debug) std::cout << "Enter values to add" << "\n";
     int val;
     bool insert = true;
     // Will execute in a loop untill reaching the end of the input stream.
@@ -102,31 +102,31 @@ void run_ops(query_structure& qs, std::istream& in) {
                     us.insert(val);
                 }
                 if constexpr (debug)
-                    std::cout << " " << val << " inserted" << std::endl;
+                    std::cout << " " << val << " inserted" << "\n";
             } else {
                 if constexpr (validate) {
                     bool res = qs.count(val);
                     if (res != us.count(val)) {
                         std::cerr << "Validation error: contains(" << val
-                                  << ") should be " << !res << std::endl;
+                                  << ") should be " << !res << "\n";
                         exit(1);
                     }
                 }
                 if constexpr (debug) {
                     std::cout << val << " : "
                               << (qs.count(val) ? "found" : "not found")
-                              << std::endl;
+                              << "\n";
                 } else {
                     std::cout << qs.count(val) << "\n";
                 }
             }
         } else {
             if (insert) {
-                if constexpr (debug) std::cout << "Enter queries" << std::endl;
+                if constexpr (debug) std::cout << "Enter queries" << "\n";
                 insert = false;
             } else {
                 if constexpr (debug)
-                    std::cout << "Enter values to add" << std::endl;
+                    std::cout << "Enter values to add" << "\n";
                 insert = true;
             }
         }
@@ -158,25 +158,25 @@ void select_qs(int type, uint64_t limit, bool separate_queries,
     }
 
     if (type == 1) {
-        if constexpr (debug) std::cerr << "Using std::set" << std::endl;
+        if constexpr (debug) std::cerr << "Using std::set" << "\n";
         std::set<int> s;
         run_ops<std::set<int>, debug, verify>(s, in);
     } else if (type == 2) {
         if constexpr (debug)
-            std::cerr << "Using std::unordered_set" << std::endl;
+            std::cerr << "Using std::unordered_set" << "\n";
         std::unordered_set<int> us;
         run_ops<std::unordered_set<int>, debug, verify>(us, in);
     } else if (type == 3) {
         if constexpr (debug)
-            std::cerr << "Using unbalanced binary tree" << std::endl;
+            std::cerr << "Using unbalanced binary tree" << "\n";
         pfp::binary_tree<int> tree;
         run_ops<pfp::binary_tree<int>, debug, verify>(tree, in);
     } else if (type == 4) {
-        if constexpr (debug) std::cerr << "Using sorted vector" << std::endl;
+        if constexpr (debug) std::cerr << "Using sorted vector" << "\n";
         pfp::vs<int> v;
         run_ops<pfp::vs<int>, debug, verify>(v, in);
     } else {
-        if constexpr (debug) std::cerr << "Using bit vector" << std::endl;
+        if constexpr (debug) std::cerr << "Using bit vector" << "\n";
         pfp::bv<int> bv(limit);
         run_ops<pfp::bv<int>, debug, verify>(bv, in);
     }
@@ -191,12 +191,14 @@ void select_qs(int type, uint64_t limit, bool separate_queries,
  * in research at least.
  */
 int main(int argc, char const* argv[]) {
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(NULL);
     // Change the line below to override default behaviour at CSES.
     // CSES does not support command line parameters (yet).
     // This mean a workaround is required to test custom data structures.
     // For example to submit with the unbalanced binary tree "-t 3" by default
     // you should change the line below to "int type = 3;".
-    int type = 0;
+    int type = 4;
     uint64_t limit = (uint32_t(1) << 31) - 1;
     bool separate_queries = false;
     int input_file = 0;
@@ -224,7 +226,7 @@ int main(int argc, char const* argv[]) {
     }
     if (debug)
         std::cerr << "type = " << type << ", limit = " << limit
-                  << ", separate queries = " << separate_queries << std::endl;
+                  << ", separate queries = " << separate_queries << "\n";
 
     // Both std::cin (console input) and std::ifstream (input file stream)
     // inherit std::istream (input stream).
