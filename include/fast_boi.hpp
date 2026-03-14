@@ -4,7 +4,7 @@
  * You can use this for programming task 3 of set 1 
 */
 
-std::array<int, 10'000'000> container;
+std::array<int, 5'000'000> container;
 
 #pragma once
 
@@ -12,7 +12,7 @@ namespace pfp {
 
 template <class dtype>
 class fast_boi {
-  int size {10'000'000};
+  int size {5'000'000};
   bool zero_in {false};
   public:
 
