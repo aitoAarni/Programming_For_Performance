@@ -8,6 +8,7 @@
 #include "include/binary_tree.hpp"
 #include "include/bv.hpp"
 #include "include/vs.hpp"
+#include "include/fast_boi.hpp"
 
 /**
  * Helper function to ouput usage information when the -h flag is detected
@@ -175,10 +176,14 @@ void select_qs(int type, uint64_t limit, bool separate_queries,
         if constexpr (debug) std::cerr << "Using sorted vector" << "\n";
         pfp::vs<int> v;
         run_ops<pfp::vs<int>, debug, verify>(v, in);
-    } else {
+    } else if (type == 5) {
         if constexpr (debug) std::cerr << "Using bit vector" << "\n";
         pfp::bv<int> bv(limit);
         run_ops<pfp::bv<int>, debug, verify>(bv, in);
+    } else if (type == 6) {
+        if constexpr (debug) std::cerr << "Using flat array" << "\n";
+        pfp::fast_boi<int> fast_boi;
+        run_ops<pfp::fast_boi<int>, debug, verify>(fast_boi, in);
     }
 }
 
@@ -200,7 +205,7 @@ int main(int argc, char const* argv[]) {
     // This mean a workaround is required to test custom data structures.
     // For example to submit with the unbalanced binary tree "-t 3" by default
     // you should change the line below to "int type = 3;".
-    int type = 5;
+    int type = 6;
     uint64_t limit = (uint32_t(1) << 31) - 1;
     bool separate_queries = false;
     int input_file = 0;

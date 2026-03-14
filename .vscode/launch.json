@@ -2,11 +2,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug Query (-t 4 -d)",
+            "name": "Debug Query (-t 6 -d)",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/main",
-            "args": ["-t", "4", "-d"],
+            "args": ["-t", "6", "-d"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
