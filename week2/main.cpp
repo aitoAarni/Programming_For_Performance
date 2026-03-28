@@ -49,6 +49,7 @@ int main(int argc, const char* argv[]) {
     auto m {read_num(is)};
     BitArray bit_arr {m};
     read_input(is, n, [&bit_arr](uint64_t val) {return bit_arr.set(val);});
+    std::cout << "num: " << bit_arr.get_num(0) << "\n";
     for (int i = 0; i < n; i++) {
         auto num = read_num(is);
         auto result = bit_arr.get(num);
