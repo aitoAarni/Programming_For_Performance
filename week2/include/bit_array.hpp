@@ -48,6 +48,7 @@ class BitArray {
 
 
     ul sum(ul idx) {
+        if (idx == 0) return 0;
         ul index = idx - 1;
         if (interval_sums == nullptr) {
             build_interval_sums();
