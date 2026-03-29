@@ -6,10 +6,8 @@
             "request": "launch",
             "program": "main",
             "args": [
-                "-b", 
-                "-t", 
-                "<", 
-                "${workspaceFolder}/data"
+                "-s", 
+                "data"
             ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",

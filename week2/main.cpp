@@ -76,6 +76,7 @@ int main(int argc, const char* argv[]) {
     if (output_timings) {
         t1 = std::chrono::high_resolution_clock().now();
     } 
+
     switch (task) {
         case Task::task1: 
         run_query([&bit_arr](uint64_t num){return bit_arr.get(num);}, is, n);
@@ -83,9 +84,9 @@ int main(int argc, const char* argv[]) {
 
         case Task::task2: 
         run_query([&bit_arr](uint64_t num){return bit_arr.sum(num);}, is, n);
+        break;
 
     }
-    // put the func here
     if (output_timings) {
         t2 = std::chrono::high_resolution_clock().now();
         std::cerr << "query time: " <<
