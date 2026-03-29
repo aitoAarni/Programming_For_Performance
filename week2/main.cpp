@@ -34,15 +34,15 @@ enum class Task {task1, task2};
 int main(int argc, const char* argv[]) {
     std::string filename;
     bool output_timings {false};
-    Task task_number {Task::task1};
+    Task task {Task::task1};
     for (int i = 1; i < argc; i++) {
         std::string_view arg {argv[i]};
         if (arg == "-t") {
             output_timings = true;
         } else if (arg == "-b") {
-            task_number = Task::task1;
+            task = Task::task1;
         } else if (arg == "-s") {
-            task_number = Task::task2;
+            task = Task::task2;
         } else {
             filename = argv[i];
         }
@@ -76,7 +76,15 @@ int main(int argc, const char* argv[]) {
     if (output_timings) {
         t1 = std::chrono::high_resolution_clock().now();
     } 
-    run_query([&bit_arr](uint64_t num){return bit_arr.get(num);}, is, n);
+    switch (task) {
+        case Task::task1: 
+        run_query([&bit_arr](uint64_t num){return bit_arr.get(num);}, is, n);
+        break;
+
+        case Task::task2: 
+        run_query([&bit_arr](uint64_t num){return bit_arr.sum(num);}, is, n);
+
+    }
     // put the func here
     if (output_timings) {
         t2 = std::chrono::high_resolution_clock().now();

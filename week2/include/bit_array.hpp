@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <cstdint>
 
 
@@ -11,9 +12,6 @@ class BitArray {
         delete[] data;
     }
 
-    uint64_t get_num(uint64_t index) {
-        return data[index];
-    }
     void set(uint64_t index) {
         auto array_index {index / 64};
         auto bit_index {index % 64};
@@ -24,6 +22,8 @@ class BitArray {
         // }
     }
 
+
+
     bool get(uint64_t index) {
 
         auto array_index {index / 64};
@@ -32,5 +32,9 @@ class BitArray {
         auto& number {data[array_index]};
         uint64_t modifier {uint64_t(1) << (bit_index )};
         return (modifier & number) != 0;
+    }
+
+    uint64_t sum(uint64_t index) {
+        return index;
     }
 };
