@@ -12,7 +12,7 @@ class BitArray {
     void build_interval_sums() {
         interval_sums = new ul[size-1];
         if (size > 1) interval_sums[0] = __builtin_popcountl(data[0]);
-        for (ul i {0}; i < (size-1); i++) {
+        for (ul i {1}; i < (size-1); i++) {
             interval_sums[i] = interval_sums[i-1] + __builtin_popcountl(data[i]);
         }
     }
