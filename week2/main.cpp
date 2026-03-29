@@ -20,17 +20,29 @@ void read_input(std::istream& is, uint64_t n, callable func) {
 }
 
 
+template <typename func>
+void run_query(func query_func, std::istream& is, uint64_t n) {
+    for (uint64_t i = 0; i < n; i++) {
+        auto num = read_num(is);
+        auto result = query_func(num);
+        std::cout << result << "\n";
+    }
+}
+
+enum class Task {task1, task2};
 
 int main(int argc, const char* argv[]) {
     std::string filename;
     bool output_timings {false};
-    int task_number {1};
+    Task task_number {Task::task1};
     for (int i = 1; i < argc; i++) {
         std::string_view arg {argv[i]};
         if (arg == "-t") {
             output_timings = true;
         } else if (arg == "-b") {
-            task_number = 1;
+            task_number = Task::task1;
+        } else if (arg == "-s") {
+            task_number = Task::task2;
         } else {
             filename = argv[i];
         }
@@ -40,7 +52,7 @@ int main(int argc, const char* argv[]) {
     if (filename != "") {
         file.open(filename, std::ifstream::binary);
         if (!file) {
-            std::cerr << "file ain't opening\n";
+            std::cerr << "File ain't opening\n";
             return 1;
         }
     }
@@ -57,24 +69,19 @@ int main(int argc, const char* argv[]) {
     if (output_timings) {
         t2 = std::chrono::high_resolution_clock().now();
         std::cerr << "Construction time: " <<
-        std::chrono::duration_cast<std::chrono::nanoseconds>(t2-t1) << "\n";
+        std::chrono::duration_cast<std::chrono::microseconds>(t2-t1) << "\n";
     }
 
-    // std::cout << "num: " << bit_arr.get_num(0) << "\n";
     
     if (output_timings) {
         t1 = std::chrono::high_resolution_clock().now();
     } 
-    for (uint64_t i = 0; i < n; i++) {
-        auto num = read_num(is);
-        auto result = bit_arr.get(num);
-        std::cout << result << "\n";
-        
-    }
+    run_query([&bit_arr](uint64_t num){return bit_arr.get(num);}, is, n);
+    // put the func here
     if (output_timings) {
         t2 = std::chrono::high_resolution_clock().now();
         std::cerr << "query time: " <<
-        std::chrono::duration_cast<std::chrono::nanoseconds>(t2-t1) << "\n";
+        std::chrono::duration_cast<std::chrono::microseconds>(t2-t1) << "\n";
     } 
     if (file.is_open()) file.close();
 
