@@ -56,9 +56,10 @@ class BitArray {
         ul bit_index {index % 64};
 
         ul return_val {};
-        if (index > 63) {
+        if (idx > 64) {
             return_val = interval_sums[array_index-1];
         }
+
         if (__builtin_ctzl(data[array_index]) > bit_index) {
             return return_val;
         } else if (64 - __builtin_clzl(data[array_index] - 1) <= bit_index) {
