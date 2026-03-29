@@ -1,7 +1,6 @@
 #pragma once
 #include <cstdint>
 
-#include <bitset>
 
 class BitArray {
     uint64_t* data;

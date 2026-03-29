@@ -4,6 +4,7 @@
 #include <cstdint>
 #include "include/bit_array.hpp"
 #include <string_view>
+#include <chrono>
 
 uint64_t read_num(std::istream& is) {
     uint64_t num {0};
@@ -43,19 +44,38 @@ int main(int argc, const char* argv[]) {
             return 1;
         }
     }
-    
+
     std::istream& is = file.is_open() ? file : std::cin;
     auto n {read_num(is)};
     auto m {read_num(is)};
     BitArray bit_arr {m};
+    std::chrono::high_resolution_clock::time_point t1, t2;
+    if (output_timings) {
+        t1 = std::chrono::high_resolution_clock().now();
+    } 
     read_input(is, n, [&bit_arr](uint64_t val) {return bit_arr.set(val);});
-    std::cout << "num: " << bit_arr.get_num(0) << "\n";
-    for (int i = 0; i < n; i++) {
+    if (output_timings) {
+        t2 = std::chrono::high_resolution_clock().now();
+        std::cerr << "Construction time: " <<
+        std::chrono::duration_cast<std::chrono::nanoseconds>(t2-t1) << "\n";
+    }
+
+    // std::cout << "num: " << bit_arr.get_num(0) << "\n";
+    
+    if (output_timings) {
+        t1 = std::chrono::high_resolution_clock().now();
+    } 
+    for (uint64_t i = 0; i < n; i++) {
         auto num = read_num(is);
         auto result = bit_arr.get(num);
         std::cout << result << "\n";
         
     }
+    if (output_timings) {
+        t2 = std::chrono::high_resolution_clock().now();
+        std::cerr << "query time: " <<
+        std::chrono::duration_cast<std::chrono::nanoseconds>(t2-t1) << "\n";
+    } 
     if (file.is_open()) file.close();
 
     return 0;

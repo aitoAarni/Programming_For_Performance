@@ -21,12 +21,12 @@ HEADERS = include/bit_array.hpp
 # called "clean" or "debug".
 .PHONY: clean debug
 
-# Tells make how to create the "query" file.
+# Tells make how to create the "main" file.
 # 
-# The contents after the colon tells make that the "query" file depends on 
-# "query.cpp" and the headers we defined above.
+# The contents after the colon tells make that the "main" file depends on 
+# "main.cpp" and the headers we defined above.
 #
-# The contents of the TAB indented line(s) tells make how to create the "query"
+# The contents of the TAB indented line(s) tells make how to create the "main"
 # file. We tell make to call the gnu c++ compiler (g++) with the specified parameters.
 # We use the general CPPFLAGS variable and provide additional flags to define how
 # we want the compiler to optimize and what the output file should be called.
@@ -34,14 +34,14 @@ main: main.cpp $(HEADERS)
 	g++ $(CPPFLAGS) -DNDEBUG -Ofast -o main main.cpp
 
 # Tells make what to do when "make clean" is called.
-# Here we simply remove the "query" binary.
+# Here we simply remove the "main" binary.
 clean:
 	rm -f main
 
 # Tells make what to do when "make debug" is called.
 # Here we compile the binary with different flags to support debugging.
-debug: query.cpp $(HEADERS)
-	g++ $(CPPFLAGS) -DDEBUG -g -o main query.cpp
+debug: main.cpp $(HEADERS)
+	g++ $(CPPFLAGS) -DDEBUG -g -o main main.cpp
 
 NAME ?= solution
 # Tells make what to do when "make submit" is called.
