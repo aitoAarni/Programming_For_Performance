@@ -28,8 +28,8 @@ class BitArray {
         auto array_index {index / 64};
         auto bit_index {index % 64};
         auto& number {data[array_index]};
-        ul modifier {ul(1) << (bit_index )};
-        number |=  modifier;
+        ul bit_mask {ul(1) << (bit_index )};
+        number |=  bit_mask;
     }
 
 
@@ -40,8 +40,8 @@ class BitArray {
         auto bit_index {index % 64};
 
         auto& number {data[array_index]};
-        ul modifier {ul(1) << (bit_index )};
-        return (modifier & number) != 0;
+        ul bit_mask {ul(1) << (bit_index )};
+        return (bit_mask & number) != 0;
     }
 
     
@@ -67,6 +67,5 @@ class BitArray {
             ul shifted_bits = data[array_index] << shift;
             return return_val + static_cast<ul>(__builtin_popcountl(shifted_bits));
         }
-        // return return_val;
     }
 };
