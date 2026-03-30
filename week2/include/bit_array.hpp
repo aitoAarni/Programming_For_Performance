@@ -96,7 +96,7 @@ class BitArray {
         auto index {array_index * 64};
         ul bit_index {0};
         while (bit_count != sum) {
-            if (((1<<bit_index) & right_chunck) != 0) {
+            if (((static_cast<ul>(1)<<bit_index) & right_chunck) != 0) {
                 bit_count++; 
             }
             bit_index++;
