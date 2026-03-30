@@ -7,6 +7,7 @@ using ul = uint64_t;
 class BitArray {
     ul* data;
     ul size;
+    long count_1_bits {0};
     unsigned int* interval_sums;
     unsigned int* search_indexes = nullptr;
 
@@ -16,10 +17,11 @@ class BitArray {
     ~BitArray() {
         delete[] data;
         delete[] interval_sums;
+        delete[] search_indexes;
     }
     
     void build_search_indexes() {
-        search_indexes = new unsigned int[size*64];
+        search_indexes = new unsigned int[count_1_bits+1];
         interval_sums = new unsigned int[size];
         ul bit_sum {0};
         unsigned int search_index {1};
@@ -46,6 +48,9 @@ class BitArray {
         auto bit_index {index % 64};
         auto& number {data[array_index]};
         ul bit_mask {ul(1) << (bit_index )};
+        if ((number & bit_mask) == 0) {
+            count_1_bits++;
+        }
         number |=  bit_mask;
     }
 
