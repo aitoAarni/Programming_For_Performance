@@ -9,6 +9,14 @@ class BitArray {
     ul size;
     ul* interval_sums;
 
+    
+    public:
+    BitArray(ul m) : data(new ul[(63+m)/64]()), size((63+m)/64), interval_sums(nullptr) {}
+    ~BitArray() {
+        delete[] data;
+        delete[] interval_sums;
+    }
+    
     void build_interval_sums() {
         interval_sums = new ul[size-1];
         if (size > 1) interval_sums[0] = __builtin_popcountl(data[0]);
@@ -16,14 +24,6 @@ class BitArray {
             interval_sums[i] = interval_sums[i-1] + __builtin_popcountl(data[i]);
         }
     }
-
-    public:
-    BitArray(ul m) : data(new ul[(63+m)/64]()), size((63+m)/64), interval_sums(nullptr) {}
-    ~BitArray() {
-        delete[] data;
-        delete[] interval_sums;
-    }
-
     void set(ul index) {
         auto array_index {index / 64};
         auto bit_index {index % 64};
@@ -50,9 +50,6 @@ class BitArray {
     ul sum(ul idx) {
         if (idx == 0) return 0;
         ul index = idx - 1;
-        if (interval_sums == nullptr) {
-            build_interval_sums();
-        }
         ul array_index {index / 64};
         ul bit_index {index % 64};
 

@@ -32,6 +32,8 @@ void run_query(func query_func, std::istream& is, uint64_t n) {
 enum class Task {task1, task2};
 
 int main(int argc, const char* argv[]) {
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(NULL);
     std::string filename;
     bool output_timings {false};
     Task task {Task::task1};
@@ -83,6 +85,7 @@ int main(int argc, const char* argv[]) {
         break;
 
         case Task::task2: 
+        bit_arr.build_interval_sums();
         run_query([&bit_arr](uint64_t num){return bit_arr.sum(num);}, is, n);
         break;
 
