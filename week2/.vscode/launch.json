@@ -6,8 +6,8 @@
             "request": "launch",
             "program": "main",
             "args": [
-                "-s", 
-                "data2"
+                "-l", 
+                "data"
             ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",

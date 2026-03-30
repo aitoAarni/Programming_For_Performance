@@ -24,16 +24,15 @@ template <typename func>
 void run_query(func query_func, std::istream& is, uint64_t n) {
     for (uint64_t i = 0; i < n; i++) {
         auto num = read_num(is);
+        // std::cout << "querying num: " << num << ", answer is: ";
         auto result = query_func(num);
         std::cout << result << "\n";
     }
 }
 
-enum class Task {task1, task2};
+enum class Task {task1, task2, task3};
 
 int main(int argc, const char* argv[]) {
-    std::ios_base::sync_with_stdio(false);
-    std::cin.tie(NULL);
     std::string filename;
     bool output_timings {false};
     Task task {Task::task1};
@@ -45,6 +44,8 @@ int main(int argc, const char* argv[]) {
             task = Task::task1;
         } else if (arg == "-s") {
             task = Task::task2;
+        } else if (arg == "-l") {
+            task = Task::task3;
         } else {
             filename = argv[i];
         }
@@ -89,6 +90,10 @@ int main(int argc, const char* argv[]) {
         run_query([&bit_arr](uint64_t num){return bit_arr.sum(num);}, is, n);
         break;
 
+        case Task::task3:
+        bit_arr.build_search_indexes();
+        run_query([&bit_arr](uint64_t num){return bit_arr.location(num);}, is, n);
+        break;
     }
     if (output_timings) {
         t2 = std::chrono::high_resolution_clock().now();

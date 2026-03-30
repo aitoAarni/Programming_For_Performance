@@ -7,7 +7,8 @@ using ul = uint64_t;
 class BitArray {
     ul* data;
     ul size;
-    ul* interval_sums;
+    unsigned int* interval_sums;
+    unsigned int* search_indexes = nullptr;
 
     
     public:
@@ -17,8 +18,24 @@ class BitArray {
         delete[] interval_sums;
     }
     
+    void build_search_indexes() {
+        search_indexes = new unsigned int[size*64];
+        interval_sums = new unsigned int[size];
+        ul bit_sum {0};
+        unsigned int search_index {1};
+        for (unsigned int index {0}; index < size; index++) {
+            interval_sums[index] = bit_sum;
+            bit_sum += __builtin_popcountl(data[index]);
+
+            while (bit_sum >= search_index) {
+                search_indexes[search_index] = index;
+                ++search_index;
+            }
+        }
+    }
+    
     void build_interval_sums() {
-        interval_sums = new ul[size-1];
+        interval_sums = new unsigned int[size-1];
         if (size > 1) interval_sums[0] = __builtin_popcountl(data[0]);
         for (ul i {1}; i < (size-1); i++) {
             interval_sums[i] = interval_sums[i-1] + __builtin_popcountl(data[i]);
@@ -67,5 +84,24 @@ class BitArray {
             ul shifted_bits = data[array_index] << shift;
             return return_val + static_cast<ul>(__builtin_popcountl(shifted_bits));
         }
+    }
+
+    int location(ul sum) {
+        if (sum == 0) {
+            return -1;
+        }
+        unsigned int array_index {search_indexes[sum]};
+        ul right_chunck {data[array_index]};
+        unsigned int bit_count {interval_sums[array_index]};
+        auto index {array_index * 64};
+        ul bit_index {0};
+        while (bit_count != sum) {
+            if (((1<<bit_index) & right_chunck) != 0) {
+                bit_count++; 
+            }
+            bit_index++;
+        }
+        return index + bit_index;
+
     }
 };
