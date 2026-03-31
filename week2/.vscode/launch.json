@@ -6,7 +6,7 @@
             "request": "launch",
             "program": "main",
             "args": [
-                "-l", 
+                "-i", 
                 "data"
             ],
             "stopAtEntry": false,

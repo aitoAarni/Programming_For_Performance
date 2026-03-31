@@ -3,8 +3,10 @@
 #include <string>
 #include <cstdint>
 #include "include/bit_array.hpp"
+#include "include/variable_length_bit_array.hpp"
 #include <string_view>
 #include <chrono>
+#include <bitset>
 
 uint64_t read_num(std::istream& is) {
     uint64_t num {0};
@@ -30,9 +32,54 @@ void run_query(func query_func, std::istream& is, uint64_t n) {
     }
 }
 
-enum class Task {task1, task2, task3};
+enum class Task {task1, task2, task3, task4};
+template <typename Array>
+void execute_program(Array& array, Task task, bool output_timings, std::istream& is, uint64_t n) {
 
-int main(int argc, const char* argv[]) {
+    std::chrono::high_resolution_clock::time_point t1, t2;
+    if (output_timings) {
+        t1 = std::chrono::high_resolution_clock().now();
+    } 
+    read_input(is, n, [&array](uint64_t val) {return array.set(val);});
+    if (output_timings) {
+        t2 = std::chrono::high_resolution_clock().now();
+        std::cerr << "Construction time: " <<
+        std::chrono::duration_cast<std::chrono::microseconds>(t2-t1) << "\n";
+    }
+    
+    
+    if (output_timings) {
+        t1 = std::chrono::high_resolution_clock().now();
+    } 
+    
+    switch (task) {
+        case Task::task1: 
+        run_query([&array](uint64_t num){return array.get(num);}, is, n);
+        break;
+        
+        case Task::task2: 
+        // array.build_interval_sums();  // commented out cuz of task A23
+        // run_query([&array](uint64_t num){return array.sum(num);}, is, n);
+        break;
+        
+        case Task::task3:
+        // array.build_search_indexes(); // commented out cuz of task A23
+        // run_query([&array](uint64_t num){return array.location(num);}, is, n);
+        break;
+
+        case Task::task4:
+        std::cout << array;
+        std::cout << "right spot";
+        run_query([&array](uint64_t num){return array.get(num);}, is, n);
+    }
+    if (output_timings) {
+        t2 = std::chrono::high_resolution_clock().now();
+        std::cerr << "query time: " <<
+        std::chrono::duration_cast<std::chrono::microseconds>(t2-t1) << "\n";
+    } 
+}
+    
+    int main(int argc, const char* argv[]) {
     std::string filename;
     bool output_timings {false};
     Task task {Task::task1};
@@ -46,6 +93,8 @@ int main(int argc, const char* argv[]) {
             task = Task::task2;
         } else if (arg == "-l") {
             task = Task::task3;
+        } else if (arg == "-i") {
+            task = Task::task4;
         } else {
             filename = argv[i];
         }
@@ -63,44 +112,16 @@ int main(int argc, const char* argv[]) {
     std::istream& is = file.is_open() ? file : std::cin;
     auto n {read_num(is)};
     auto m {read_num(is)};
-    BitArray bit_arr {m};
-    std::chrono::high_resolution_clock::time_point t1, t2;
-    if (output_timings) {
-        t1 = std::chrono::high_resolution_clock().now();
-    } 
-    read_input(is, n, [&bit_arr](uint64_t val) {return bit_arr.set(val);});
-    if (output_timings) {
-        t2 = std::chrono::high_resolution_clock().now();
-        std::cerr << "Construction time: " <<
-        std::chrono::duration_cast<std::chrono::microseconds>(t2-t1) << "\n";
-    }
-
     
-    if (output_timings) {
-        t1 = std::chrono::high_resolution_clock().now();
-    } 
-
-    switch (task) {
-        case Task::task1: 
-        run_query([&bit_arr](uint64_t num){return bit_arr.get(num);}, is, n);
-        break;
-
-        case Task::task2: 
-        bit_arr.build_interval_sums();
-        run_query([&bit_arr](uint64_t num){return bit_arr.sum(num);}, is, n);
-        break;
-
-        case Task::task3:
-        bit_arr.build_search_indexes();
-        run_query([&bit_arr](uint64_t num){return bit_arr.location(num);}, is, n);
-        break;
+    if (task == Task::task4) {
+        IntArray array {m, n};
+        execute_program(array, task, output_timings, is, n);
+    } else {
+        BitArray array {m};
+        execute_program(array, task, output_timings, is, n);
     }
-    if (output_timings) {
-        t2 = std::chrono::high_resolution_clock().now();
-        std::cerr << "query time: " <<
-        std::chrono::duration_cast<std::chrono::microseconds>(t2-t1) << "\n";
-    } 
-    if (file.is_open()) file.close();
+    // BaseArray array = task == Task::task4 ? IntArray{m, n} : BitArray{m};
+
 
     return 0;
 }

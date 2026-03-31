@@ -1,8 +1,10 @@
 #pragma once
 #include <iostream>
 #include <cstdint>
+#include <iostream>
 
 using ul = uint64_t;
+
 
 class BitArray {
     ul* data;
@@ -10,7 +12,7 @@ class BitArray {
     long count_1_bits {0};
     unsigned int* interval_sums;
     unsigned int* search_indexes = nullptr;
-
+    
     
     public:
     BitArray(ul m) : data(new ul[(63+m)/64]()), size((63+m)/64), interval_sums(nullptr) {}
@@ -28,7 +30,7 @@ class BitArray {
         for (unsigned int index {0}; index < size; index++) {
             interval_sums[index] = bit_sum;
             bit_sum += __builtin_popcountl(data[index]);
-
+            
             while (bit_sum >= search_index) {
                 search_indexes[search_index] = index;
                 ++search_index;
@@ -53,33 +55,32 @@ class BitArray {
         }
         number |=  bit_mask;
     }
-
-
-
+    
+    
     bool get(ul index) {
-
+        
         auto array_index {index / 64};
         auto bit_index {index % 64};
-
+        
         auto& number {data[array_index]};
         ul bit_mask {ul(1) << (bit_index )};
         return (bit_mask & number) != 0;
     }
-
     
-
-
+    
+    
+    
     ul sum(ul idx) {
         if (idx == 0) return 0;
         ul index = idx - 1;
         ul array_index {index / 64};
         ul bit_index {index % 64};
-
+        
         ul return_val {};
         if (idx > 64) {
             return_val = interval_sums[array_index-1];
         }
-
+        
         if (__builtin_ctzl(data[array_index]) > bit_index) {
             return return_val;
         } else if (64 - __builtin_clzl(data[array_index] - 1) <= bit_index) {
@@ -89,6 +90,13 @@ class BitArray {
             ul shifted_bits = data[array_index] << shift;
             return return_val + static_cast<ul>(__builtin_popcountl(shifted_bits));
         }
+    }
+    
+    friend std::ostream& operator<<(std::ostream& os, const BitArray& array) {
+        return os;
+    } 
+    ul get_data() {
+        return data[0];
     }
 
     int location(ul sum) {
