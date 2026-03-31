@@ -21,24 +21,15 @@ class IntArray {
     }
     
     void set(ul num) {
-        ul offset {bit_index};
-        int i {0};
-        for (; i < int_size; i++) {
-            data[array_index] |= ((ul)1 << bit_index++) & (num << offset);
-            if ((bit_index) >= 64) {
-                bit_index = 0;
-                array_index++;
-                i++;
-                offset = i;
-                for (; i < int_size; i++) {
-                    data[array_index] |= ((ul)1 << bit_index++) & (num >> (offset));
-                }
-                break;
-            }
-        
-
-
+        data[array_index] |= num << bit_index;
+        bit_index += int_size;
+        if (bit_index >= 64) {
+            bit_index -= 64;
+            array_index++;
+            data[array_index] |= num >> (int_size - bit_index);
         }
+
+
     }
     
     ul get(ul index) {
