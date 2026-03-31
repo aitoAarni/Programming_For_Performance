@@ -22,7 +22,6 @@ class IntArray {
     
     void set(ul num) {
         ul offset {bit_index};
-        std::cout << "num: " << std::bitset<10>(num) << "\n";
         int i {0};
         for (; i < int_size; i++) {
             data[array_index] |= ((ul)1 << bit_index++) & (num << offset);
@@ -48,7 +47,7 @@ class IntArray {
         ul b_index {index*int_size % 64};
 
         value |= data[arr_index] >> b_index;
-        ul overflow = (b_index+int_size) - 64;
+        long overflow = (b_index+int_size) - 64;
         if (overflow > 0) {
             value |= (data[arr_index+1] << (int_size - overflow));
         }

@@ -68,8 +68,6 @@ void execute_program(Array& array, Task task, bool output_timings, std::istream&
         break;
 
         case Task::task4:
-        std::cout << array;
-        std::cout << "right spot\n";
         run_query([&array](uint64_t num){return array.get(num);}, is, n);
     }
     if (output_timings) {
