@@ -92,9 +92,6 @@ class BitArray {
         }
     }
     
-    friend std::ostream& operator<<(std::ostream& os, const BitArray& array) {
-        return os;
-    } 
     ul get_data() {
         return data[0];
     }

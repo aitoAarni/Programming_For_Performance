@@ -26,7 +26,6 @@ template <typename func>
 void run_query(func query_func, std::istream& is, uint64_t n) {
     for (uint64_t i = 0; i < n; i++) {
         auto num = read_num(is);
-        // std::cout << "querying num: " << num << ", answer is: ";
         auto result = query_func(num);
         std::cout << result << "\n";
     }

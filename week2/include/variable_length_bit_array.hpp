@@ -46,10 +46,4 @@ class IntArray {
         return value&bit_mask;
     }
     
-    friend std::ostream& operator<<(std::ostream& os, const IntArray& array) {
-        for (int i = 0; i < ((array.int_size * 10 + 63) / 64); i++) {
-            os << "data[" << i << "]" << std::bitset<64>(array.data[i]) << "\n";
-        }
-        return os << "int_size: " << array.int_size << "\n";
-    }
 };
