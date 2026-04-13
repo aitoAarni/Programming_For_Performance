@@ -1,16 +1,16 @@
 #pragma once
 #include <cstdint>
-#include <vector>
+#include <deque>
 #include <iostream>
 
 using ui = uint64_t;
 using uc = uint8_t;
 
 class StandardVByte {
-    std::vector<uc> data;
+    std::deque<uc> data;
 
 public:
-    StandardVByte(ui n) { data.reserve(std::min<size_t>(5*100'000'000, n * 2)); }
+    StandardVByte(ui n) {}
 
     void read_int(ui num) {
         while (num > 127) {
@@ -44,10 +44,10 @@ public:
 
 class SortedVByte {
     ui n; 
-    std::vector<uc> data;
+    std::deque<uc> data;
     ui previous {0};
     public:
-    SortedVByte(ui u_count) : n(u_count)  {data.reserve(std::min<size_t>(5*100'000'000, n * 10));}
+    SortedVByte(ui u_count) : n(u_count)  {}
 
     void read_int(ui num) {
         ui delta {num - previous};
