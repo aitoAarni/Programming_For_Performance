@@ -10,7 +10,7 @@ class StandardVByte {
     std::vector<uc> data;
 
 public:
-    StandardVByte(ui n) { data.reserve(std::min<size_t>(4*100'000'000, n * 2)); }
+    StandardVByte(ui n) { data.reserve(std::min<size_t>(5*100'000'000, n * 2)); }
 
     void read_int(ui num) {
         while (num > 127) {
@@ -47,7 +47,7 @@ class SortedVByte {
     std::vector<uc> data;
     ui previous {0};
     public:
-    SortedVByte(ui u_count) : n(u_count)  {data.reserve(std::min<size_t>(4*100'000'000, n * 10));}
+    SortedVByte(ui u_count) : n(u_count)  {data.reserve(std::min<size_t>(5*100'000'000, n * 10));}
 
     void read_int(ui num) {
         ui delta {num - previous};
