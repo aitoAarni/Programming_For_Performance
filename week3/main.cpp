@@ -3,6 +3,7 @@
 #include <string>
 #include <cstdint>
 #include "include/standard_vbyte.hpp"
+#include "include/generilized_vbyte.hpp"
 #include <string_view>
 #include <chrono>
 #include <bitset>
